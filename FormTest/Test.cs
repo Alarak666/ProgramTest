@@ -171,6 +171,8 @@ namespace FormTest
         {
             if (NumberQuestion != listTests.Count)
                 NumberQuestion++;
+            if (NumberQuestion == listTests.Count)
+                Next.Enabled = false;
             CreateTest();
             string param = ParamRadioCheck();
             UserAnswer.Add(FillTrueAnswer(param));
