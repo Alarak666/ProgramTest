@@ -35,6 +35,7 @@ namespace FormTest
             this.RB1 = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,10 +54,10 @@ namespace FormTest
             this.RB2.AutoSize = true;
             this.RB2.Location = new System.Drawing.Point(37, 77);
             this.RB2.Name = "RB2";
-            this.RB2.Size = new System.Drawing.Size(132, 21);
+            this.RB2.Size = new System.Drawing.Size(240, 21);
             this.RB2.TabIndex = 2;
             this.RB2.TabStop = true;
-            this.RB2.Text = "Відповідь слово";
+            this.RB2.Text = "Декілька правильних відповідей";
             this.RB2.UseVisualStyleBackColor = true;
             this.RB2.CheckedChanged += new System.EventHandler(this.RB2_CheckedChanged);
             // 
@@ -65,10 +66,10 @@ namespace FormTest
             this.RB3.AutoSize = true;
             this.RB3.Location = new System.Drawing.Point(37, 114);
             this.RB3.Name = "RB3";
-            this.RB3.Size = new System.Drawing.Size(240, 21);
+            this.RB3.Size = new System.Drawing.Size(132, 21);
             this.RB3.TabIndex = 1;
             this.RB3.TabStop = true;
-            this.RB3.Text = "Декілька правильних відповідей";
+            this.RB3.Text = "Відповідь слово";
             this.RB3.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.RB3.UseVisualStyleBackColor = true;
             this.RB3.CheckedChanged += new System.EventHandler(this.RB3_CheckedChanged);
@@ -108,11 +109,22 @@ namespace FormTest
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Завдання";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(693, 371);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(98, 46);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Создать файл ";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // TestCreate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(923, 511);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Create);
@@ -133,5 +145,6 @@ namespace FormTest
         private System.Windows.Forms.RadioButton RB1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button1;
     }
 }

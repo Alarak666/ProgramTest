@@ -22,3 +22,4 @@ D:\Git\FormTest\FormTest\obj\Debug\FormTest.exe.licenses
 D:\Git\FormTest\FormTest\obj\Debug\FormTest.csproj.CoreCompileInputs.cache
 D:\Git\FormTest\FormTest\obj\Debug\FormTest.exe
 D:\Git\FormTest\FormTest\obj\Debug\FormTest.pdb
+D:\Git\FormTest\FormTest\obj\Debug\FormTest.Test.resources
