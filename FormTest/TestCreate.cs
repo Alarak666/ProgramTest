@@ -242,6 +242,13 @@ namespace FormTest
             listTest.WriteModul();
         }
 
+        private void Back_Click(object sender, EventArgs e)
+        {
+            Main main = new Main();
+            main.Show();
+            Hide();
+        }
+
         //private void button2_Click(object sender, EventArgs e)
         //{
         //    listTest.ReadModul();

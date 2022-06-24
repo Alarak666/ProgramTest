@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using System.Windows.Forms;
 namespace FormTest
 {
     class ListTest
@@ -34,82 +34,94 @@ namespace FormTest
         }
         public void WriteModul()
         {
-            using (TextWriter tw = new StreamWriter("Рошен.txt", false))
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.DefaultExt = ".txt";
+            saveFileDialog.Filter = "Test files |*.txt";
+            if(saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName.Length > 1)
             {
-                string str = "";
-                foreach (var list in listTests)
+                using (TextWriter tw = new StreamWriter(saveFileDialog.FileName, false))
                 {
-                    tw.WriteLine($"{list.ID}");
-                    tw.WriteLine($"{list.Question}");
-                    for (int i = 0; i < list.Answer.Length; i++)
+                    string str = "";
+                    foreach (var list in listTests)
                     {
-                        str += $"{list.Answer[i].ToString()},";
+                        tw.WriteLine($"{list.ID}");
+                        tw.WriteLine($"{list.Question}");
+                        for (int i = 0; i < list.Answer.Length; i++)
+                        {
+                            str += $"{list.Answer[i].ToString()},";
+                        }
+                        str = str.Remove(str.Length - 1);
+                        tw.WriteLine(str);
+                        str = "";
+                        for (int i = 0; i < list.TrueAnswer.Length; i++)
+                        {
+                            str += $"{list.TrueAnswer[i].ToString()},";
+                        }
+                        str = str.Remove(str.Length - 1);
+                        tw.WriteLine(str);
+                        str = "";
                     }
-                    str = str.Remove(str.Length-1);
-                    tw.WriteLine(str);
-                    str = "";
-                    for (int i = 0; i < list.TrueAnswer.Length; i++)
-                    {
-                        str += $"{list.TrueAnswer[i].ToString()},";
-                    }
-                    str = str.Remove(str.Length - 1);
-                    tw.WriteLine(str);
-                    str = "";
                 }
             }
         }
         public List<ListTest> ReadModul()
         {
-            string str = "";
-            List<string> lines = System.IO.File.ReadLines("Рошен.txt").ToList();
-            for (int i = 0; i < lines.Count; i +=4)
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Test files |*.txt";
+            if(openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Answer = new string[] { };
-                TrueAnswer = new string[] { };
-                ID = Convert.ToInt32(lines[i]);
-                Question = lines[i + 1].ToString();
-                for (int j = 0; j < lines[i + 2].Length; j++)
+                string str = "";
+                List<string> lines = System.IO.File.ReadLines(openFileDialog.FileName).ToList();
+                for (int i = 0; i < lines.Count; i += 4)
                 {
-                    if (lines[i + 2].Length == 1 || lines[i + 2].Length - 1 == j)
+                    Answer = new string[] { };
+                    TrueAnswer = new string[] { };
+                    ID = Convert.ToInt32(lines[i]);
+                    Question = lines[i + 1].ToString();
+                    for (int j = 0; j < lines[i + 2].Length; j++)
                     {
+                        if (lines[i + 2].Length == 1 || lines[i + 2].Length - 1 == j)
+                        {
+                            str += lines[i + 2][j].ToString();
+                            Array.Resize(ref Answer, Answer.Length + 1);
+                            Answer[Answer.Length - 1] = str;
+                            str = "";
+                            continue;
+                        }
+                        if (lines[i + 2][j] == ',')
+                        {
+                            Array.Resize(ref Answer, Answer.Length + 1);
+                            Answer[Answer.Length - 1] = str;
+                            str = "";
+                            continue;
+                        }
                         str += lines[i + 2][j].ToString();
-                        Array.Resize(ref Answer, Answer.Length + 1);
-                        Answer[Answer.Length - 1] = str;
-                        str = "";
-                        continue;
                     }
-                    if (lines[i + 2][j] == ',' )
+                    str = "";
+                    for (int j = 0; j < lines[i + 3].Length; j++)
                     {
-                        Array.Resize(ref Answer, Answer.Length + 1);
-                        Answer[Answer.Length - 1] = str;
-                        str = "";
-                        continue;
-                    }
-                    str += lines[i + 2][j].ToString();
-                }
-                str = "";
-                for (int j = 0; j < lines[i + 3].Length; j++)
-                {
-                    if(lines[i + 3].Length == 1 || lines[i + 3].Length - 1 == j)
-                    {
+                        if (lines[i + 3].Length == 1 || lines[i + 3].Length - 1 == j)
+                        {
+                            str += lines[i + 3][j].ToString();
+                            Array.Resize(ref TrueAnswer, TrueAnswer.Length + 1);
+                            TrueAnswer[TrueAnswer.Length - 1] = str;
+                            str = "";
+                            continue;
+                        }
+                        if (lines[i + 3][j] == ',')
+                        {
+                            Array.Resize(ref TrueAnswer, TrueAnswer.Length + 1);
+                            TrueAnswer[TrueAnswer.Length - 1] = str;
+                            str = "";
+                            continue;
+                        }
                         str += lines[i + 3][j].ToString();
-                        Array.Resize(ref TrueAnswer, TrueAnswer.Length + 1);
-                        TrueAnswer[TrueAnswer.Length - 1] = str;
-                        str = "";
-                        continue;
                     }
-                    if (lines[i + 3][j] == ',' )
-                    {
-                        Array.Resize(ref TrueAnswer, TrueAnswer.Length + 1);
-                        TrueAnswer[TrueAnswer.Length - 1] = str;
-                        str = "";
-                        continue;
-                    }
-                    str += lines[i + 3][j].ToString();
+                    str = "";
+                    listTestsRead.Add(new ListTest(Answer, Question, TrueAnswer, ID));
                 }
-                str = "";
-                listTestsRead.Add(new ListTest(Answer, Question, TrueAnswer, ID));
             }
+            
             return listTestsRead;
         }
         public int GiveAnswer(int inputID)
@@ -150,28 +162,61 @@ namespace FormTest
             {
                 for (int j = 0; j < item.Length; j++)
                 {
-                    if(listTestsRead[i].Answer[j].Length > 1)
+                    if(listTestsRead[i].TrueAnswer.Length == 0)
                     {
                         if (listTestsRead[i].Answer[j] == item[j])
+                        {
+                            Rating++;
+                        }
+                    }
+                    if(item.Length > 1)
+                    {
+                        if (listTestsRead[i].TrueAnswer[j] == item[j])
                         {
                             Target += 0.3m;
                         }
                         else
                             Target -= 0.3m;
-                        if(listTestsRead[i].Answer[j].Length-1 == j)
+                        if(item.Length - 1 == j)
                         {
-                            Target = (Target > 1) ? Target = 1 : Target = 0;
+                            Target = (Target > 0) ? Target = 1 : Target = 0;
                             Rating += Target;
                         }
                         continue;
                     }
-                    if(listTestsRead[i].Answer[j] == item[j])
+                    if (listTestsRead[i].TrueAnswer.Length != 0)
                     {
-                        Rating++;
+                        if (listTestsRead[i].TrueAnswer[j] == item[j])
+                        {
+                            Rating++;
+                        }
+                    }
+                }
+                i++;
+            }
+            return Rating;
+        }
+        public void AnswerSave(List<string[]> UserAnswer)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.DefaultExt = ".txt";
+            saveFileDialog.Filter = "Test files |*.txt";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName.Length > 1)
+            {
+                using (TextWriter tw = new StreamWriter(saveFileDialog.FileName, false))
+                {
+                    string str = "";
+                    foreach (var list in UserAnswer)
+                    {
+                        for (int i = 0; i < list.Length; i++)
+                        {
+                            tw.WriteLine($"{list[i]}");
+                        }
+                        
+                    
                     }
                 }
             }
-            return Rating;
         }
     }
 }

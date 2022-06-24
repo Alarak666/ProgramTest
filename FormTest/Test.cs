@@ -24,7 +24,7 @@ namespace FormTest
         int y = 30;
         int i = 0;
         int NumberQuestion = 1;
-       
+        bool block = false;
         ListTest listTest = new ListTest();
         List<ListTest> listTests = new List<ListTest>();
         List<string[]> UserAnswer = new List<string[]>();
@@ -90,6 +90,7 @@ namespace FormTest
             {
                 TextBox.Size = new Size(400, 100);
                 TextBox.ReadOnly = false;
+                TextBox.Name = "TextBox" + i;
                 TextBox.Text = "";
             }
             groupBox2.Controls.Add(TextBox);
@@ -121,6 +122,12 @@ namespace FormTest
                         TrueAnswer[k] = (groupBox2.Controls["Test" + i] as TextBox).Text;
                         k++;
                     }
+                }
+                else if(groupBox2.Controls[param + i] is TextBox)
+                {
+                    Array.Resize(ref TrueAnswer, TrueAnswer.Length + 1);
+                    TrueAnswer[k] = (groupBox2.Controls["TextBox" + i] as TextBox).Text;
+                    k++;
                 }
             }
             return TrueAnswer;
@@ -163,8 +170,8 @@ namespace FormTest
             if (NumberQuestion != 1)
                 NumberQuestion--;
             CreateTest();
-            string param = ParamRadioCheck();
-            UserAnswer.Add(FillTrueAnswer(param));
+            //string param = ParamRadioCheck();
+            //UserAnswer.Add(FillTrueAnswer(param));
         }
 
         private void Next_Click(object sender, EventArgs e)
@@ -174,14 +181,19 @@ namespace FormTest
             if (NumberQuestion == listTests.Count)
                 Next.Enabled = false;
             CreateTest();
-            string param = ParamRadioCheck();
-            UserAnswer.Add(FillTrueAnswer(param));
+            //string param = ParamRadioCheck();
+            //UserAnswer.Add(FillTrueAnswer(param));
+            AnswerSave.Enabled = block;
         }
 
         private void AnswerSave_Click(object sender, EventArgs e)
         {
+            block = true;
+            if (block)
+                AnswerSave.Enabled = !block;
             string param = ParamRadioCheck();
             UserAnswer.Add(FillTrueAnswer(param));
+            block = true;
         }
         string ParamRadioCheck() 
         {
@@ -198,6 +210,8 @@ namespace FormTest
                     param = "CheckBox";
                     break;
                 }
+                if(groupBox2.Controls.Count - 1 == i )
+                    return param = "TextBox";
             }
             return param;
         }
@@ -207,6 +221,13 @@ namespace FormTest
             decimal Rating = 0;
             Rating = listTest.Cool(UserAnswer);
             MessageBox.Show($"Оценка - {Rating}");
+        }
+
+        private void Back_Click(object sender, EventArgs e)
+        {
+            Main main = new Main();
+            main.Show();
+            Hide();
         }
     }
 }

@@ -23,5 +23,12 @@ namespace FormTest
             form.Show();
             Hide();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Test form = new Test();
+            form.Show();
+            Hide();
+        }
     }
 }

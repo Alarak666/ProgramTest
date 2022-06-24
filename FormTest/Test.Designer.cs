@@ -34,6 +34,7 @@ namespace FormTest
             this.AnswerSave = new System.Windows.Forms.Button();
             this.EndTest = new System.Windows.Forms.Button();
             this.Last = new System.Windows.Forms.Button();
+            this.Back = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -67,9 +68,9 @@ namespace FormTest
             // 
             // EndTest
             // 
-            this.EndTest.Location = new System.Drawing.Point(587, 363);
+            this.EndTest.Location = new System.Drawing.Point(656, 363);
             this.EndTest.Name = "EndTest";
-            this.EndTest.Size = new System.Drawing.Size(178, 68);
+            this.EndTest.Size = new System.Drawing.Size(109, 68);
             this.EndTest.TabIndex = 4;
             this.EndTest.Text = "Завершити";
             this.EndTest.UseVisualStyleBackColor = true;
@@ -85,12 +86,23 @@ namespace FormTest
             this.Last.UseVisualStyleBackColor = true;
             this.Last.Click += new System.EventHandler(this.Last_Click);
             // 
+            // Back
+            // 
+            this.Back.Location = new System.Drawing.Point(541, 363);
+            this.Back.Name = "Back";
+            this.Back.Size = new System.Drawing.Size(109, 68);
+            this.Back.TabIndex = 4;
+            this.Back.Text = "Повернутись";
+            this.Back.UseVisualStyleBackColor = true;
+            this.Back.Click += new System.EventHandler(this.Back_Click);
+            // 
             // Test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.EndTest);
+            this.Controls.Add(this.Back);
             this.Controls.Add(this.AnswerSave);
             this.Controls.Add(this.Next);
             this.Controls.Add(this.Last);
@@ -108,5 +120,6 @@ namespace FormTest
         private System.Windows.Forms.Button Next;
         private System.Windows.Forms.Button AnswerSave;
         private System.Windows.Forms.Button EndTest;
+        private System.Windows.Forms.Button Back;
     }
 }
